@@ -5,7 +5,7 @@ spec_path = "#{`pwd`.chomp}/Specs"
 spec_regex = /\/Specs\/[0-9a-f]\/[0-9a-f]\/[0-9a-f]\/(.+?)\/(.+?)\/(.+)$/i
 
 # update or clone spec repo
-# `if cd #{spec_path}; then git pull; else git clone https://github.com/CocoaPods/Specs #{spec_path}; fi`
+`if cd #{spec_path}; then git pull; else git clone https://github.com/CocoaPods/Specs #{spec_path}; fi`
 
 # recursively list contents of all subfolders
 files = Dir.glob("#{spec_path}/**/*.json")
