@@ -1,29 +1,34 @@
 require 'json'
 
-spec_path = "#{`pwd`.chomp}/Specs"
+SPEC_PATH = "#{`pwd`.chomp}/Specs"
+SPEC_REGEX = /\/Specs\/[0-9a-f]\/[0-9a-f]\/[0-9a-f]\/(.+?)\/(.+?)\/(.+)$/i
 
-spec_regex = /\/Specs\/[0-9a-f]\/[0-9a-f]\/[0-9a-f]\/(.+?)\/(.+?)\/(.+)$/i
-
-# update or clone spec repo
-`if cd #{spec_path}; then git pull; else git clone https://github.com/CocoaPods/Specs #{spec_path}; fi`
-
-# recursively list contents of all subfolders
-files = Dir.glob("#{spec_path}/**/*.json")
-
-pods = {}
-
-files.each do |file|
-  match = file.match(spec_regex)
-  pods[match[1]] ||= {}
-  # pods[match[1]][match[2]] = file
-  pods[match[1]][match[2]] = JSON.parse(File.read(file))
+def update_pods
+  `if cd #{SPEC_PATH}; then git pull; else git clone https://github.com/CocoaPods/Specs #{SPEC_PATH}; fi`
 end
 
-puts "#{pods.keys.length} pods 😑"
-puts "#{files.length} files 😂"
+def output_stats
+  puts "#{@pods.keys.length} pods 😑"
+  puts "#{@files.length} files 😂"
+end
 
-str = Marshal.dump(pods)
-File.open('pod_dump', 'w') { |file| file.write(str) }
+def load_pods
+  @files = Dir.glob("#{SPEC_PATH}/**/*.json")
 
-require 'os'
-puts "#{(OS.rss_bytes/(1024.0)).round}KB"
+  @pods = {}
+
+  @files.each do |file|
+    match = file.match(SPEC_REGEX)
+    @pods[match[1]] ||= {}
+    @pods[match[1]][match[2]] = JSON.parse(File.read(file))
+  end
+end
+
+def dump_pods
+  str = Marshal.dump(@pods)
+  File.open('pod_dump', 'w') { |file| file.write(str) }
+end
+
+update_pods
+load_pods
+output_stats
