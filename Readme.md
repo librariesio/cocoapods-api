@@ -11,5 +11,5 @@ A small service to make it easier for [Libraries.io](https://libraries.io) to re
 ## Extras
 
 - Watch https://github.com/CocoaPods/Specs/commits/master.atom for updates
-- Push new/updated pods directly into the Libraries sidekiq for processing
+- RSS feed of new/updated pods for https://github.com/librariesio/watcher to track
 - Tell Libraries about removed versions/pods
