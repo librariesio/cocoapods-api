@@ -1,0 +1,1 @@
+web: puma config.ru
