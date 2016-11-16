@@ -44,7 +44,7 @@ class CocoapodsRepo
     files.each do |file|
       match = file.match(SPEC_REGEX)
       pods[match[1]] ||= {}
-      pods[match[1]][match[2]] = JSON.parse(File.read(file))
+      pods[match[1]][match[2]] = file
     end
     pods
   end
@@ -54,8 +54,10 @@ class CocoapodsRepo
     @redis.sadd('pod_names', pods.keys)
 
     # write all the pods into keys
-    pods.each do |name, versions|
+    pods.each_with_index do |(name, versions), index|
+      versions.each { |k, v| versions[k] = JSON.parse(File.read(v)) }
       @redis.set("pods:#{name}", MessagePack.pack(versions))
+      GC.start if index % 100 == 0
     end
   end
 
