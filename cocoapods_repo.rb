@@ -19,6 +19,21 @@ class CocoapodsRepo
     MessagePack.unpack(@redis.get("pods:#{name}").force_encoding('ASCII-8BIT'))
   end
 
+  def rss_entries
+    git_history.split("\ncommit ").map do |entry|
+      {
+        guid: entry.gsub(/^.*commit /m, '').gsub(/\n.*$/m, '').strip,
+        author_name: entry.gsub(/^.*Author: /m, '').gsub(/ <.*$/m, '').strip,
+        date: entry.gsub(/^.*Date: +/m, '').gsub(/\n.*$/m, '').strip,
+        comments: entry.gsub(/^.*Date[^\n]*/m, '').strip
+      }
+    end
+  end
+
+  def git_history
+    `cd #{SPEC_PATH} && git log --max-count=20 --format=medium`
+  end
+
   def load_pods
     update_repo unless repo_cloned?
 

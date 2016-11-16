@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require './cocoapods_repo'
+require 'builder'
 
 COCOAPODS_REPO = CocoapodsRepo.new
 
@@ -15,8 +16,11 @@ class CocoapodsAPI < Sinatra::Base
 
   get '/pods/:name.json' do
     content_type :json
-    COCOAPODS_REPO.pods[params[:name]].to_json
+    COCOAPODS_REPO.pod(params[:name]).to_json
   end
 
+  get '/feed.rss' do
+    @entries = COCOAPODS_REPO.rss_entries
+    builder :rss
   end
 end

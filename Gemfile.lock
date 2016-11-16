@@ -11,6 +11,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    builder (3.2.2)
     curb (0.9.3)
     feed-normalizer (1.5.2)
       hpricot (>= 0.6)
@@ -39,6 +40,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  builder
   feedtosis!
   foreman
   hiredis
