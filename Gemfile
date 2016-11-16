@@ -10,3 +10,7 @@ gem 'hiredis'
 gem 'feedtosis', git: 'https://github.com/alown/feedtosis'
 gem 'moneta'
 gem 'builder'
+
+group :development do
+  gem 'capistrano'
+end
