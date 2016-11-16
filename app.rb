@@ -1,6 +1,6 @@
 require 'sinatra/base'
 
-class Cocoaplods < Sinatra::Base
+class CocoapodsAPI < Sinatra::Base
   get '/' do
     "Hello World!"
   end
