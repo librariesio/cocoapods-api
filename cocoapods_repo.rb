@@ -43,6 +43,7 @@ class CocoapodsRepo
 
     files.each do |file|
       match = file.match(SPEC_REGEX)
+      next unless match
       pods[match[1]] ||= {}
       pods[match[1]][match[2]] = file
     end
