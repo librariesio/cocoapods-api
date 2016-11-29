@@ -16,7 +16,9 @@ class CocoapodsRepo
   end
 
   def pod(name)
-    MessagePack.unpack(@redis.get("pods:#{name}").force_encoding('ASCII-8BIT'))
+    pack = @redis.get("pods:#{name}")
+    return nil unless pack
+    MessagePack.unpack(pack).force_encoding('ASCII-8BIT'))
   end
 
   def rss_entries
