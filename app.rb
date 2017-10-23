@@ -16,7 +16,12 @@ class CocoapodsAPI < Sinatra::Base
 
   get '/pods/:name.json' do
     content_type :json
-    COCOAPODS_REPO.pod(params[:name]).to_json
+    pod = COCOAPODS_REPO.pod(params[:name])
+    if pod
+      pod.to_json
+    else
+      halt 404, "Product not found"
+    end
   end
 
   get '/feed.rss' do
