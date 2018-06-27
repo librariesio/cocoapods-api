@@ -1,0 +1,13 @@
+version: '2'
+services:
+  redis:
+    image: redis:4-alpine
+  app:
+    build: ./
+    ports:
+      - 9292:9292
+    links:
+      - redis
+    environment:
+      PORT: 9292
+      REDIS_SERVER: redis://redis:6379
