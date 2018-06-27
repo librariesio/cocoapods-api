@@ -2,7 +2,7 @@ require 'sinatra/base'
 require './cocoapods_repo'
 require 'builder'
 
-COCOAPODS_REPO = CocoapodsRepo.new
+COCOAPODS_REPO = CocoapodsRepo.new(ENV['REDIS_SERVER'])
 
 class CocoapodsAPI < Sinatra::Base
   get '/' do
