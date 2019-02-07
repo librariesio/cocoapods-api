@@ -70,7 +70,7 @@ class CocoapodsRepo
 
   def update_repo
     if repo_cloned?
-      `cd #{SPEC_PATH}} && git pull`
+      `cd #{SPEC_PATH} && git pull`
     else
       `git clone https://github.com/CocoaPods/Specs #{SPEC_PATH}`
     end
